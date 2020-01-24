@@ -1,0 +1,36 @@
+Answers : Assignment2  Part I
+======================================================
+1)  	 Because if we detach the enzyme threads, they will run with main thread
+     concurrently, which will result that the main thread is finished but the 
+     the enzyme threads aren't finished.
+
+     	By practicing, the program still functions  if we detached the sleeper 
+     thread.
+
+
+2)   	sched_yield is used in wait_till_done and run_enzyem. It is used to let the 
+     thread to religuish the processer and make another thread which has priority
+     to get in.
+    	 If not use it, then the run_enzyem will become slower and the output may not get 
+     the string in order.
+    	 No, the swap counts may not always identical.
+
+
+3)	 Because the swap count of cancelled threads is zero.
+
+
+4)     The join waits for notification from the other thread. So Iin this case, 
+     same thread is waiting for itself to notify and hence no notification is 
+     received. The program will never end.
+     	There will be no error, but a deadlock may be caused.
+
+5)		sleeper thread is suspened for 5 seconds and if no interuption, then it will
+	 a print function and run exit(1).
+
+6)		There are two cancel modes in initializing the thread: PTHREAD_CANCEL_ASYNCHRONOUS 
+    and PTHREAD_CANCEL_DEFFERED. We use the former one because we want we want to 
+	exit will a 'C' appears immediately.
+
+7)  	There is a memory bug in Part II, #2 above. If we malloc the space before 
+	the loop, then there will be only one thread_info_t space to store, but we need
+	len-1 threads to sort the string. In this case, you need malloce space in every loop.

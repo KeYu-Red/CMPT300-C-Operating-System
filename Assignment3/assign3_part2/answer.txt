@@ -1,0 +1,62 @@
+Assignment 3
+Part2:
+
+A1:ignals are from threads. SIGUSR2 and SIGALRM are not intended to be caught by  the worker. 
+So we block them. And it is the asme as the unblocks
+ 
+
+Question 2.
+We use sigwait() and sigaction() in our code. Explain the difference between the
+two. (Please explain from the aspect of thread behavior rather than syntax).
+
+A2:
+
+Sigwait() is required to wait for a signal. In the conntext of the program, when the thread hangs, it needs to wait for the signal to resume. With sigwait, we can block the thread until the specified signal appears.
+Sigaction() is used to set the signal handler. Any signal has a default handler, but if we need to execute a different set of instructions instead of the default, we can do this by using sigaction. 
+
+
+A3:
+There alternative is the absolute time. In relative time, we can set the time in such as 5 seconds,
+but in absolute time, it can only at a precise time, like 2019-11-11,12:00:00 and 2019-11-11,12:00:05
+
+
+A4:
+The thread is terminated by the SIGTERM signal. When getting this signal, then cancel_thread() will be processed.
+
+
+A5:
+The scheduler will finish when all worker threads are done.
+If it exits when the scheduler queueis empty, then the very beginning of the queue is empty, but it does not exit.
+
+
+A6:
+If the thread is not finished, it will stay in the queue as long as possible.
+After using up its rr time, it will be removed from the head.
+When compeletely finishing the thread, it will be remove from the queue.
+
+
+A7:
+Because we have a limit of queue size, and using the semaphore queue_sem, we can manange the resource to
+check whether we have space for the queue.
+
+
+A8;
+'completed' is to keep track of the number of workers that have completed execution.
+If 'compeleted' is smaller than 'thread_count', it means that the thread still needs executing.
+
+
+A9:
+We need to modify the suspend_work. Currently, we move to head to the tail, so we modify it, and keep 
+processing it untill it is removed by cancel_worker.
+
+
+Question 10.
+In this implementation, the scheduler only changes threads when the time quantum
+expires.  Briefly explain how you would use an additional signal to allow the
+scheduler to change threads in the middle of a time quantum.  In what situations
+would this be useful?
+A10:
+I will use a signal based on the sheduler, and it will reset the timer when blocking the thread and start a new thread.
+In some situations, for example, if the time quantum is so big, and I want to block it for not wasting the cpu, this kind
+of signal will be significant.
+

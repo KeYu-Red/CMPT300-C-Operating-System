@@ -1,0 +1,102 @@
+We choose the part 2 as a group work.
+
+Group member(2 in total):
+NAME: Zheming Xu ID:301414922
+NAME: Yu Ke      ID:301414915
+
+Question:
+
+1) Why is it so important that adjacent free blocks not be left as such?  What
+would happen if they were permitted?
+
+A1: Adjacent free blocks are unnecessary because in true memory they would combine as a
+larger block for allocating, so adjacent free blocks is kind of redundancy. If they were
+permitted, larger allocation would be limited. For example, two adjacent free blocks with
+size 100 and 200, if they were left, we could only allocate at most size 200 into these
+free block, but if they were not left and combined, we could allocate at most size 300.
+
+2) Which function(s) need to be concerned about adjacent free blocks?
+
+A2: void myfree(void* block);
+
+3) Name one advantage of each strategy.
+
+A3: First-fit: The low-location part of the memory is preferentially used, thus preserving
+the large free area in the high-location part of the memory for later use.
+
+    Best-fit: This method could make the fragments (produced after allocate) as small as 
+possible.
+	
+    Worst-fit: This method would try to reduce the production of small fragments and make
+each node nearly same memory size
+
+    Next-fit: This method would reduce the overhead of searching the suitable block compared
+to first-fit. 
+
+4) Run the stress test on all strategies, and look at the results (tests.out).
+What is the significance of "Average largest free block"?  Which strategy
+generally has the best performance in this metric?  Why do you think this is?
+
+A4: The significance is the average value of the size of largest free block after each test.
+Best-fit has the best performance because it always choose the smallest suitable free block,
+thus the largest free block is likely to be reserved.
+
+5) In the stress test results (see Question 4), what is the significance of
+"Average number of small blocks"?  Which strategy generally has the best
+performance in this metric?  Why do you think this is?
+
+A5: The significance is to evaluate the algorithm through how many small blocks(useless compared
+to large blocks for allocating) it creates. Less small blocks means better algorithm.   
+    Best-fit algorithm generally has the best performance. Because it would provide the smallest
+suitable block for allocating, which would create the largest number of small blocks in average
+compared to the other three algorithms.
+
+6) Eventually, the many mallocs and frees produces many small blocks scattered
+across the memory pool.  There may be enough space to allocate a new block, but
+not in one place.  It is possible to compact the memory, so all the free blocks
+are moved to one large free block.  How would you implement this in the system
+you have built?
+
+A6: I would first search all the free blocks through pointer traversal and record their total size.
+And we delete all these free block nodes and create a new one node with size equal to total size 
+and insert it into the tail of memory linked-list(alloc = '0' next = head). The above operations 
+are in the memory_compact() function.
+
+7) If you did implement memory compaction, what changes would you need to make
+in how such a system is invoked (i.e. from a user's perspective)?
+
+A7: I need to set a 'tail' node to mark the tail node in the list.(tail->next = head). And if we
+want to allocate, we should start from the tail node rather than the head node. In user's 
+perspective, the system would only invoke memory compaction after the completion of mymalloc() and
+myfree().
+
+8) How would you use the system you have built to implement realloc?  (Brief
+explanation; no code)
+
+A8: Two cases here.(reallocate same size is meanless)
+    If the memory we reallocate is larger than the old one, we need to check the next block of the
+current block. If it is free and has enough size to hold the difference, then increase the current
+block size to the new memory size and change the next block's size to the difference. Else, we should
+inform that reallocation is not successful.
+    If the memory we reallocate is smaller than the old one, we just need to insert a new free node
+between the current block and the next block with size equal to difference. And change the current
+block size to the memory size.
+
+9) Which function(s) need to know which strategy is being used?  Briefly explain
+why this/these and not others.
+
+A9: mymalloc(). This function need to obtain the suitable block in advance ,thus the function could
+proceed with allocating. Therefore, it needs to know the strategy and then get the corresponding 
+suitable block.
+
+10) Give one advantage of implementing memory management using a linked list
+over a bit array, where every bit tells whether its corresponding byte is
+allocated.
+
+A10: In bit array, if we want to allocate or free a block of memory, then we need to change 'alloc'for
+each bit in that block, which cost O(block.size). But in linked list, for each node corresponding to 
+each size we just need to change node.alloc which cost O(1). Thus, it is of better efficiency.
+
+
+
+ 

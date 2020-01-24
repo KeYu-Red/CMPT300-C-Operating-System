@@ -1,0 +1,22 @@
+1)
+The temp is just a pointer, and it is not allocated any space. So when using strcpy, you can not 
+copy the string to that pointer.
+
+2)
+A string type includes the character '\0' as the end tag, so the string 
+actually contains 10 characters. But the array temp only has 9 char space.
+
+3)
+The pointer buffer points to a string constant, 'strcpy' operation will attempt to
+modify the value of a constant, which is forbidden.
+
+4)
+Correct. A simpler expression for &b[0] is b.
+
+5)
+output: 5 abc
+
+6)
+The function myfunc() creates a local array variable buffer which has no certain
+value after the function completed, so argument s doesn't get a exact value and will
+be NULL then and fail to be printed.

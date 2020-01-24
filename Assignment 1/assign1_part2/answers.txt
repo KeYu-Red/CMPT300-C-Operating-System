@@ -1,0 +1,39 @@
+STEP 4:Questions
+==================
+1. 'cd' has to  be a build-in command and could not be implemented by an external program instead.
+    Because the shell itself needs to change its current work directory, but not a sub-process. 
+    And if you use an external program to so such a thing to change cwd, the parent process of the 
+    program did not change the directory.
+
+2.  If the command is cd, which means the exec_aggv[0] is cd, then the function chdir() will be used 
+    to change the directory.
+
+3.  If the program didn't use fork() function, then a new process - the child process - will not be 
+    created, which means that after you input a command and it is excecuted, the sample shell will be 
+    exit, and you cannot input more commands.
+
+4.  The fork() function creates a new process by duplicating the calling process and returns a PID.
+    If it fails, the the return will be smaller than 0; when it succeeds, the parent process will 
+    return its PID, and the child process will return 0. In this program, the child process is to 
+    run the current command, and after it is be done, child will exit. And the parent process is to 
+    continue around the loop, which means you can continue to input commands.
+
+5.  If fork() were called prior to chdir(), and chdir() invoked within the forked child process, then
+    only the child process changed its current work directory, instead of the sample shell program 
+    itself.
+
+6.  Yes, you can run multiple versions of ./b.sh in the background. The same second shows at the same 
+    time with different versions. And of course they end at the same time.
+
+7.  Yes you can. The child shell will receive your input.
+
+8.  When type CTRL-C, the countdown script will be terminated. But if ./b.sh is running in the background,
+    typing CTRL-C will not effect it.
+
+9.  Yes, a shell can kill itself. And a shell within a shell can also kill the parent shell.
+
+10. When exit from the shell, the background process is still running. When the process is running, I can 
+    see them with 'ps' command.
+    
+
+   

@@ -1,0 +1,42 @@
+Answers : Assignment2 PartII
+========================================
+
+A1: All operations including add, mul and degroup will use data in the 
+array buffer. And all of them will read and write the buffer.  
+For example, if input is (2+3)+(4*5), firstly it becomes (5)+(4*5), but
+at the same time processes multipal fuction, and the remainderOffset and 
+startOffset is still based on the "(2+3)+(4*5)", which will result an
+error for next multiplier action.
+
+A2: I think the program will generate incorrect output.
+Because three functions are exclusively operated, so if we store all the 
+expressions in the buffer, it can still run corectly.
+
+
+A3: The data structure needs to be protected is buffer.
+
+A4: If I had a busy-wait within one of my critical sections, it will wait to meet 
+some conditions, which may result in a deadlock.
+If a sched_yeild() is in a loop, it can give the CPU usage to other threads that in need,
+just as our codes in calc.c
+
+A5: When using pthread_mutex_lock(), it blocks and only returns when it has the lock. But trylock returns immediately and can either succeed or fail to obtain the lock.
+So we use the non-blocking one when we don't want to wait and have an alternative thing to do when we can't get the lock
+	
+A6: If this mutex is nothing to do with operations in step3, then 
+it is not required to do so.
+
+A7: Because critical section is a part which many threads need to access, and
+threads should spend as little time inside a critical section as 
+possible to reduce the amount of time other threads sit idle waiting to 
+acquire the lock
+
+A8: a spinlock is a lock which causes a thread trying to acquire it to simply wait in a loop while repeatedly checking if the lock is available. If one excecution takes too much 
+time, we need a way to prevent execution of a thread in between if something important is pending.
+And yeilding can do it and make more efficient.
+
+A9: When there are no other prior threads that need to be excecuted.
+
+A10:  For the initialize function, sem_init(), I input 1 as its 3re parameter.
+If I used a larger value, then there will be more than one thread that
+access the critical section at the same time, which will lead to an error.
